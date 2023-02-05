@@ -12,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "roles")
 @Entity
-public class Role extends BaseEntity{
+public class Role extends BaseEntity {
 
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy ="roles" ,fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private List<User> users;
 }

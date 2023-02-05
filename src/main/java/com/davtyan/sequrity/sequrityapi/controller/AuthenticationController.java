@@ -1,8 +1,9 @@
 package com.davtyan.sequrity.sequrityapi.controller;
 
-import com.davtyan.sequrity.sequrityapi.dto.login.request.UserRequest;
+import com.davtyan.sequrity.sequrityapi.dto.login.request.Credentials;
 import com.davtyan.sequrity.sequrityapi.dto.register.response.RoleResponse;
 import com.davtyan.sequrity.sequrityapi.dto.register.response.UserResponse;
+import com.davtyan.sequrity.sequrityapi.entity.Role;
 import com.davtyan.sequrity.sequrityapi.entity.User;
 import com.davtyan.sequrity.sequrityapi.sequrity.jwt.JwtTokenProvider;
 import com.davtyan.sequrity.sequrityapi.sequrity.jwt.JwtUser;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -35,18 +37,18 @@ public class AuthenticationController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/api/login")
-    public String login(@RequestBody UserRequest userRequest) {
+    public String login(@RequestBody Credentials credentials) {
 
         try {
-            String requestUserName = userRequest.getUserName();
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestUserName, userRequest.getPassword()));
+            String userName = credentials.getUserName();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userName, credentials.getPassword()));
 
-            User requestUser = userService.findByUserName(requestUserName);
+            User requestUser = userService.findByUserName(userName);
             if (requestUser == null) {
-                throw new UsernameNotFoundException("no user named : " + requestUserName);
+                throw new UsernameNotFoundException("no user named : " + userName);
             }
 
-            return jwtTokenProvider.createToken(requestUserName);
+            return jwtTokenProvider.createToken(userName);
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid userName or password");
         }
@@ -54,7 +56,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/api/auth/{authorization}")
-    public ResponseEntity<Object> auth(@PathVariable String authorization) {
+    public ResponseEntity<?> auth(@PathVariable String authorization) {
         String token = authorization.substring(7);
         try {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
