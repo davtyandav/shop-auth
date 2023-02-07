@@ -3,12 +3,12 @@ package com.davtyan.sequrity.sequrityapi.controller;
 import com.davtyan.sequrity.sequrityapi.dto.login.request.Credentials;
 import com.davtyan.sequrity.sequrityapi.dto.register.response.RoleResponse;
 import com.davtyan.sequrity.sequrityapi.dto.register.response.UserResponse;
-import com.davtyan.sequrity.sequrityapi.entity.Role;
 import com.davtyan.sequrity.sequrityapi.entity.User;
 import com.davtyan.sequrity.sequrityapi.sequrity.jwt.JwtTokenProvider;
 import com.davtyan.sequrity.sequrityapi.sequrity.jwt.JwtUser;
 import com.davtyan.sequrity.sequrityapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -55,9 +54,9 @@ public class AuthenticationController {
 
     }
 
-    @GetMapping("/api/auth/{authorization}")
-    public ResponseEntity<?> auth(@PathVariable String authorization) {
-        String token = authorization.substring(7);
+    @GetMapping("/api/auth")
+    public ResponseEntity<?> auth(@RequestHeader(HttpHeaders.AUTHORIZATION) String auth) {
+        String token = auth.substring(7);
         try {
             Authentication authentication = jwtTokenProvider.getAuthentication(token);
             JwtUser jwtUser = (JwtUser) authentication.getPrincipal();

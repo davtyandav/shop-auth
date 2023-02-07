@@ -1,5 +1,6 @@
 package com.davtyan.sequrity.sequrityapi.service;
 
+import com.davtyan.sequrity.sequrityapi.dto.login.request.RoleRequest;
 import com.davtyan.sequrity.sequrityapi.dto.role.UserRequest;
 import com.davtyan.sequrity.sequrityapi.entity.Role;
 
@@ -11,4 +12,5 @@ public interface RoleService {
     List<Role> getByUserId(long id);
 
     void addRoles(UserRequest userRequest, List<Role> newRoles);
+    void addRole(RoleRequest roleRequest);
 }

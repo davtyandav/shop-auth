@@ -1,5 +1,6 @@
 package com.davtyan.sequrity.sequrityapi.service.impl;
 
+import com.davtyan.sequrity.sequrityapi.dto.login.request.RoleRequest;
 import com.davtyan.sequrity.sequrityapi.dto.role.UserRequest;
 import com.davtyan.sequrity.sequrityapi.entity.Role;
 import com.davtyan.sequrity.sequrityapi.repostitory.RoleRepository;
@@ -36,7 +37,14 @@ public class RoleServiceImpl implements RoleService {
         List<Role> added = newRoles.stream().filter(newRole -> !oldRoles.contains(newRole)).collect(Collectors.toList());
 
 
+    }
 
+    @Override
+    public void addRole(RoleRequest roleRequest) {
+
+        Role role = new Role();
+        role.setName(roleRequest.getName());
+        roleRepository.save(role);
     }
 
 
