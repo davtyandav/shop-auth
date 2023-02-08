@@ -1,5 +1,10 @@
 package com.davtyan.sequrity.sequrityapi.sequrity.jwt;
 
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
+
 import com.davtyan.sequrity.sequrityapi.dto.login.request.RoleRequest;
 import com.davtyan.sequrity.sequrityapi.sequrity.JwtUserDetailsService;
 import io.jsonwebtoken.Claims;
@@ -8,19 +13,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
@@ -34,25 +30,15 @@ public class JwtTokenProvider {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
-    @Bean
-    public BCryptPasswordEncoder getBCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @PostConstruct
-    public void init() {
-        secret = Base64.getEncoder().encodeToString(secret.getBytes());
-    }
-
     public String createToken(String userName) {
         Claims claims = Jwts.claims().setSubject(userName);
 
         return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + validityInMilliseconds))
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
+            .setClaims(claims)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date((new Date()).getTime() + validityInMilliseconds))
+            .signWith(SignatureAlgorithm.HS256, secret)
+            .compact();
     }
 
     public Authentication getAuthentication(String token) {

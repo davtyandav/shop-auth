@@ -1,17 +1,17 @@
 package com.davtyan.sequrity.sequrityapi.dto.register.response;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.List;
 
+@Builder
 @Getter
-@Setter
 public class UserResponse {
-    private Long id;
-    private String userName;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private List<RoleResponse> roles;
+    private final Long id;
+    private final String username;
+    private final String firstName;
+    private final String lastName;
+    private final String email;
+    private final List<RoleResponse> roles;
 }

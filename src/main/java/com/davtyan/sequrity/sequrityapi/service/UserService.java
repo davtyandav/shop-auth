@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
-    UserResponse register(UserRequest user);
+    long register(UserRequest user);
 
     List<User> getAll();
 

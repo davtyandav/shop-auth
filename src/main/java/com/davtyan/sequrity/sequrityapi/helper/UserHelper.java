@@ -1,7 +1,9 @@
 package com.davtyan.sequrity.sequrityapi.helper;
 
-import com.davtyan.sequrity.sequrityapi.dto.register.response.RoleResponse;
-import com.davtyan.sequrity.sequrityapi.dto.register.response.UserResponse;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import com.davtyan.sequrity.sequrityapi.dto.register.request.UserRequest;
 import com.davtyan.sequrity.sequrityapi.entity.Role;
 import com.davtyan.sequrity.sequrityapi.entity.Status;
@@ -10,11 +12,6 @@ import com.davtyan.sequrity.sequrityapi.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class UserHelper {
@@ -39,23 +36,6 @@ public class UserHelper {
         collect.add(createDefaultRole());
         user.setRoles(collect);
         return user;
-    }
-
-    public UserResponse convertToResponse(User user) {
-        UserResponse userResponse = new UserResponse();
-        userResponse.setId(user.getId());
-        userResponse.setUserName(user.getUserName());
-        userResponse.setFirstName(user.getFirstName());
-        userResponse.setLastName(user.getLastName());
-        userResponse.setEmail(user.getEmail());
-        userResponse.setRoles(user.getRoles().stream().map(this::convertRoleToResponse).collect(Collectors.toList()));
-        return userResponse;
-    }
-
-    public RoleResponse convertRoleToResponse(Role role) {
-        RoleResponse roleResponse=new RoleResponse();
-        roleResponse.setName(role.getName());
-        return roleResponse;
     }
 
     private Role createDefaultRole() {

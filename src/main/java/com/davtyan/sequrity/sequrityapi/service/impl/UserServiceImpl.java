@@ -24,13 +24,13 @@ public class UserServiceImpl implements UserService {
     private UserHelper userHelper;
 
     @Override
-    public UserResponse register(UserRequest userRequest) {
+    public long register(UserRequest userRequest) {
         String userName = userRequest.getUserName();
         User requestUser = userRepository.findByUserName(userName);
         if (requestUser == null) {
             User newUser = userHelper.createNewUser(userRequest);
             User saveUser = userRepository.save(newUser);
-            return userHelper.convertToResponse(saveUser);
+            return saveUser.getId();
         }
         throw new BadCredentialsException("There is already a user named :" + userName);
     }

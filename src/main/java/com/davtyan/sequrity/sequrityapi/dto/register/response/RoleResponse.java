@@ -1,17 +1,13 @@
 package com.davtyan.sequrity.sequrityapi.dto.register.response;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+@Builder
 @Getter
-@Setter
 public class RoleResponse {
-    private String name;
 
-    public RoleResponse() {
-    }
+    private final String name;
 
-    public RoleResponse(String name) {
-        this.name = name;
-    }
 }
