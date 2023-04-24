@@ -1,6 +1,7 @@
 package com.davtyan.sequrity.sequrityapi.controller;
 
 import com.davtyan.sequrity.sequrityapi.dto.login.request.Credentials;
+import com.davtyan.sequrity.sequrityapi.dto.login.response.UserResponse;
 import com.davtyan.sequrity.sequrityapi.entity.User;
 import com.davtyan.sequrity.sequrityapi.sequrity.jwt.JwtTokenProvider;
 import com.davtyan.sequrity.sequrityapi.service.UserService;
@@ -31,7 +32,7 @@ public class AuthenticationController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/api/login")
-    public String login(@RequestBody Credentials credentials) {
+    public UserResponse login(@RequestBody Credentials credentials) {
 
         try {
             String userName = credentials.getUserName();
@@ -42,8 +43,10 @@ public class AuthenticationController {
             if (requestUser == null) {
                 throw new UsernameNotFoundException("no user named : " + userName);
             }
-
-            return jwtTokenProvider.createToken(userName);
+            UserResponse userResponse = new UserResponse();
+            userResponse.setUserName(userName);
+            userResponse.setToken(jwtTokenProvider.createToken(userName));
+            return userResponse;
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid userName or password");
         }
