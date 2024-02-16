@@ -32,12 +32,11 @@ public class UserController {
 
     @PostMapping("/registration")
     public Long registration(@RequestBody UserRequest user) {
-
         return userService.register(user);
     }
 
     @PostMapping("/roles")
-    public void addRoles(com.davtyan.sequrity.sequrityapi.dto.role.UserRequest userRequest, List<Role> newRoles) {
+    public void addRoles(UserRequest userRequest, List<Role> newRoles) {
         roleService.addRoles(userRequest, newRoles);
     }
 

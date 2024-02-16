@@ -8,7 +8,6 @@ import com.davtyan.sequrity.sequrityapi.repostitory.UserRepository;
 import com.davtyan.sequrity.sequrityapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService {
             User saveUser = userRepository.save(newUser);
             return saveUser.getId();
         }
-        throw new BadCredentialsException("There is already a user named :" + userName);
+        throw new IllegalArgumentException("There is already a user named :" + userName);
     }
 
     @Override
