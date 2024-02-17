@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
 public class UserController {
-
     private final UserService userService;
     private final RoleService roleService;
 
@@ -38,16 +37,22 @@ public class UserController {
 
     @GetMapping("/{username}")
     public ResponseEntity<UserResponse> getUserByUserName(@PathVariable("username") String username) {
-        User byUserName = userService.findByUserName(username);
-
-        UserResponse userResponse = UserResponse.builder()
-                .id(byUserName.getId())
-                .username(byUserName.getUserName())
-                .firstName(byUserName.getFirstName())
-                .lastName(byUserName.getLastName())
-                .roles(byUserName.getRoles().stream().map(x -> RoleResponse.builder().name(x.getName()).build()).collect(
-                        Collectors.toList()))
+        var user = userService.findByUserName(username);
+        var userResponse = UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUserName())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .roles(getRoles(user))
                 .build();
         return ResponseEntity.ok(userResponse);
+    }
+
+    private List<RoleResponse> getRoles(User byUserName) {
+        return byUserName.getRoles().stream().map(this::createRole).collect(Collectors.toList());
+    }
+
+    private RoleResponse createRole(Role role) {
+        return RoleResponse.builder().name(role.getName()).build();
     }
 }

@@ -2,7 +2,6 @@ package com.davtyan.sequrity.sequrityapi.controller;
 
 import com.davtyan.sequrity.sequrityapi.dto.login.request.Credentials;
 import com.davtyan.sequrity.sequrityapi.dto.login.response.UserResponse;
-import com.davtyan.sequrity.sequrityapi.entity.User;
 import com.davtyan.sequrity.sequrityapi.sequrity.jwt.JwtTokenProvider;
 import com.davtyan.sequrity.sequrityapi.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 @CrossOrigin(origins = "*")
 public class AuthenticationController {
-
     private final UserService userService;
     private final JwtTokenProvider jwtTokenProvider;
 
@@ -22,14 +20,14 @@ public class AuthenticationController {
 
     @PostMapping("/api/login")
     public UserResponse login(@RequestBody Credentials credentials) {
-            String userName = credentials.getUserName();
-            User requestUser = userService.findByUserName(userName);
-            if (requestUser == null) {
-                throw new IllegalArgumentException("no user named : " + userName);
-            }
-            UserResponse userResponse = new UserResponse();
-            userResponse.setUserName(userName);
-            userResponse.setToken(jwtTokenProvider.createToken(userName));
-            return userResponse;
+        var userName = credentials.getUserName();
+        var requestUser = userService.findByUserName(userName);
+        if (requestUser == null) {
+            throw new IllegalArgumentException("no user named : " + userName);
+        }
+        UserResponse userResponse = new UserResponse();
+        userResponse.setUserName(userName);
+        userResponse.setToken(jwtTokenProvider.createToken(userName));
+        return userResponse;
     }
 }
