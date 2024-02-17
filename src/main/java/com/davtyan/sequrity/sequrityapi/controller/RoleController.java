@@ -23,5 +23,4 @@ public class RoleController {
     public void addRole(RoleRequest roleRequest) {
         roleService.addRole(roleRequest);
     }
-
 }

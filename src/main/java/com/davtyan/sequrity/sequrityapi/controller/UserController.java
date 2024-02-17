@@ -32,12 +32,12 @@ public class UserController {
     }
 
     @PostMapping("/roles")
-    public void addRoles(UserRequest userRequest, List<Role> newRoles) {
-        roleService.addRoles(userRequest, newRoles);
+    public void addRoles(Long userId, List<Role> newRoles) {
+        roleService.addRoles(userId, newRoles);
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<UserResponse> getUsers(@PathVariable("username") String username) {
+    public ResponseEntity<UserResponse> getUserByUserName(@PathVariable("username") String username) {
         User byUserName = userService.findByUserName(username);
 
         UserResponse userResponse = UserResponse.builder()

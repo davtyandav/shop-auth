@@ -1,13 +1,11 @@
 package com.davtyan.sequrity.sequrityapi.service.impl;
 
 import com.davtyan.sequrity.sequrityapi.dto.register.request.UserRequest;
-import com.davtyan.sequrity.sequrityapi.dto.register.response.UserResponse;
 import com.davtyan.sequrity.sequrityapi.entity.User;
 import com.davtyan.sequrity.sequrityapi.helper.UserHelper;
 import com.davtyan.sequrity.sequrityapi.repostitory.UserRepository;
 import com.davtyan.sequrity.sequrityapi.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +13,13 @@ import java.util.List;
 @Service
 @Slf4j
 public class UserServiceImpl implements UserService {
+    private final UserRepository userRepository;
+    private final UserHelper userHelper;
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserHelper userHelper;
+    public UserServiceImpl(UserHelper userHelper, UserRepository userRepository) {
+        this.userHelper = userHelper;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public long register(UserRequest userRequest) {

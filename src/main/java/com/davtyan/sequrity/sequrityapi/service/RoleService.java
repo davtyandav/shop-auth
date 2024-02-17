@@ -12,6 +12,6 @@ public interface RoleService {
 
     List<Role> getByUserId(long id);
 
-    void addRoles(UserRequest userRequest, List<Role> newRoles);
+    void addRoles(Long userId, List<Role> newRoles);
     void addRole(RoleRequest roleRequest);
 }
