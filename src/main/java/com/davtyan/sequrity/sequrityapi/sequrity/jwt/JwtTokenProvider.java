@@ -19,7 +19,6 @@ public class JwtTokenProvider {
 
     public String createToken(String userName) {
         Claims claims = Jwts.claims().setSubject(userName);
-
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())

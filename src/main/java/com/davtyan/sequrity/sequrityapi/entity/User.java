@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Table(name = "users")
 @Entity
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
     private String userName;
     private String firstName;
@@ -20,9 +20,9 @@ public class User extends BaseEntity{
     private String email;
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name="user_roles",
-            joinColumns = {@JoinColumn(name="user_id" ,referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name="role_id",referencedColumnName = "id")}
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private List<Role> roles;
 

@@ -16,11 +16,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserHelper {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
+
+    public UserHelper(BCryptPasswordEncoder bCryptPasswordEncoder, RoleService roleService) {
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.roleService = roleService;
+    }
 
     public User createNewUser(UserRequest userRequest) {
         User user = new User();
